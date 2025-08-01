@@ -38,11 +38,13 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm install --no-frozen-lockfile
-          pnpm add terser --save-dev
+          pnpm add terser@latest --save-dev
           pnpm add date-fns@3.6.0 --save-exact
           
       - name: Build project
-        run: pnpm run build
+        run: |
+          pnpm run build
+          ls -R dist # Verify built files
           
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -51,6 +53,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist'
+          retention-days: 1
           
       - name: Deploy to GitHub Pages
         id: deployment
