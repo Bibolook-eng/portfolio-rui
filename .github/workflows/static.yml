@@ -37,7 +37,7 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pnpm install --frozen-lockfile
+          pnpm install --no-frozen-lockfile
           pnpm add terser --save-dev
           pnpm add date-fns@3.6.0 --save-exact
           
