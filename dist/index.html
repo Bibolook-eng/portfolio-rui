@@ -2,16 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/portfolio-rui/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rui Tobias Carvalho - Computer Engineer & Educator</title>
-    <script type="module" crossorigin src="/portfolio-rui/assets/index-BT4DCvND.js"></script>
-    <link rel="modulepreload" crossorigin href="/portfolio-rui/assets/vendor-CTWz7CUB.js">
-    <link rel="modulepreload" crossorigin href="/portfolio-rui/assets/radix-BusuxROv.js">
-    <link rel="modulepreload" crossorigin href="/portfolio-rui/assets/animations-BNUdexzX.js">
-    <link rel="stylesheet" crossorigin href="/portfolio-rui/assets/index-C8V3lw7z.css">
+    <base href="/portfolio-rui/" /> <!-- Add this line -->
   </head>
   <body>
     <div id="root"></div>
+    <!-- Remove type="module" as Vite will handle this during build -->
+    <script src="/src/main.jsx"></script>
   </body>
 </html>
