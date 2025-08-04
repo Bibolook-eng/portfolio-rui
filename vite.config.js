@@ -6,9 +6,13 @@ import path from 'path'
 export default defineConfig({
   plugins: [
     react({
-      jsxImportSource: '@emotion/react', // If using Emotion
+      // Ensure JSX runtime is properly configured
+      jsxRuntime: 'automatic',
+      // Babel configuration if needed
       babel: {
-        plugins: ['@emotion/babel-plugin'] // If using Emotion
+        plugins: [
+          // Add any required Babel plugins here
+        ]
       }
     }),
     tailwindcss()
@@ -16,15 +20,15 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // Add any other aliases you need
+      // Add other aliases if needed
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx'] // Add if using TypeScript
+    extensions: ['.js', '.jsx', '.ts', '.tsx'] // Add TypeScript if using
   },
-  base: '/rui-portfolio/',
+  base: '/portfolio-rui/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    sourcemap: process.env.NODE_ENV !== 'production', // Disable in production
+    sourcemap: false, // Disable in production
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -55,23 +59,10 @@ export default defineConfig({
   server: {
     port: 3000,
     strictPort: true,
-    hmr: {
-      overlay: false // Disable error overlay if needed
-    }
+    open: true // Optional: open browser on dev server start
   },
   preview: {
     port: 4173,
-    strictPort: true,
-    headers: {
-      'Cache-Control': 'public, max-age=600'
-    }
-  },
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      // Add other large dependencies that don't change often
-    ],
-    exclude: ['js-big-decimal'] // Add any problematic dependencies
+    strictPort: true
   }
 })
