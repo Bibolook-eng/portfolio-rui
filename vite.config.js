@@ -8,7 +8,7 @@ export default defineConfig({
     react({
       jsxRuntime: 'automatic',
       babel: {
-        plugins: [] // Remove Emotion if not needed
+        plugins: []
       }
     }),
     tailwindcss()
@@ -41,9 +41,9 @@ export default defineConfig({
             return 'vendor'
           }
         },
-        assetFileNames: 'assets/[name]-[hash][extname]?v=[hash]', // Cache busting
-        chunkFileNames: 'assets/[name]-[hash].js?v=[hash]',
-        entryFileNames: 'assets/[name]-[hash].js?v=[hash]'
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js'
       }
     }
   },
@@ -53,9 +53,6 @@ export default defineConfig({
   },
   preview: {
     port: 4173,
-    strictPort: true,
-    headers: {
-      'Cache-Control': 'public, max-age=600'
-    }
+    strictPort: true
   }
 })
