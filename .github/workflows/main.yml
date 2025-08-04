@@ -1,0 +1,67 @@
+name: Deploy Vite/React to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile || (echo "::warning::Lockfile issues, installing without frozen lockfile" && pnpm install)
+          pnpm add terser@latest --save-dev
+
+      - name: Build project
+        run: |
+          pnpm run build
+          find dist -type f -name '*.html' -exec sed -i 's|="/|="./|g' {} +
+          find dist -type f -name '*.js' -exec sed -i 's|="/|="./|g' {} +
+          find dist -type f -name '*.css' -exec sed -i 's|="/|="./|g' {} +
+
+      - name: Verify build output
+        run: ls -R dist
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: portfolio-rui-artifact
+          path: 'dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
